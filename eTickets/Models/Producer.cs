@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eTickets.Models.eTickets.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace eTickets.Models
 
         public string Bio { get; set; }
 
+        public List<Movie> Movies { get; set; }   
 
     }
 }
