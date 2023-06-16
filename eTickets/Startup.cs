@@ -1,6 +1,4 @@
 ﻿using eTickets.Data;
-using eTickets.Data.Cart;
-using eTickets.Data.Services;
 using eTickets.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +23,7 @@ namespace eTickets
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-        }
+        }   
 
         public IConfiguration Configuration { get; }
 
@@ -34,9 +32,10 @@ namespace eTickets
         {
 
             //DbContext configuration
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("DefaultConnectionString")));
 
-            //Services configuration
+            /*//Services configuration
             services.AddScoped<IActorsService, ActorsService>();
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemasService, CinemasService>();
@@ -53,9 +52,10 @@ namespace eTickets
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            });
+            });*/
 
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,8 +91,8 @@ namespace eTickets
             });
 
             //Seed database
-            AppDbInitializer.Seed(app);
-            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
+            //AppDbInitializer.Seed(app);
+            //AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
 }
