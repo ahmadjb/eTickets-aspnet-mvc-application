@@ -1,13 +1,7 @@
-using eTickets.Data;
-using eTickets.Data.Cart;
-using eTickets.Data.Services;
-using eTickets.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using eTickets.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,25 +29,6 @@ namespace eTickets
             //DbContext configuration
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
-            //Services configuration
-            services.AddScoped<IActorsService, ActorsService>();
-            services.AddScoped<IProducersService, ProducersService>();
-            services.AddScoped<ICinemasService, CinemasService>();
-            services.AddScoped<IMoviesService, MoviesService>();
-            services.AddScoped<IOrdersService, OrdersService>();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
-
-            //Authentication and authorization
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-            services.AddMemoryCache();
-            services.AddSession();
-            services.AddAuthentication(options => 
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            });
-
             services.AddControllersWithViews();
         }
 
@@ -74,11 +49,6 @@ namespace eTickets
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseSession();
-
-            //Authentication & Authorization
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseAuthorization();
 
@@ -86,12 +56,11 @@ namespace eTickets
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Movies}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
             //Seed database
             AppDbInitializer.Seed(app);
-            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
 }
