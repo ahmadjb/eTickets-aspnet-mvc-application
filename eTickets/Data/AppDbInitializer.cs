@@ -1,6 +1,4 @@
-﻿using eTickets.Data.Enums;
-using eTickets.Models;
-using eTickets.Models.eTickets.Models;
+﻿using eTickets.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System;

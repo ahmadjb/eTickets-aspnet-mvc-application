@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eTickets.Data.Enums
+namespace eTickets.Data
 {
     public enum MovieCategory
     {
@@ -13,6 +13,5 @@ namespace eTickets.Data.Enums
         Documentary,
         Cartoon,
         Horror
-
     }
 }
