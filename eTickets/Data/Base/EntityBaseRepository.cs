@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,31 +15,30 @@ namespace eTickets.Data.Base
             _context = context;
         }
 
-        public Task AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
+            EntityEntry entityEntry = _context.Entry<T>(entity);
+            entityEntry.State = EntityState.Deleted;
+
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            var result = await _context.Set<T>().ToListAsync();
-            return result;
-        }
+        public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
+        public async Task<T> GetByIdAsync(int id) => await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
 
-        public async Task<T> GetByIdAsync(int id)
+        public async Task UpdateAsync(int id, T entity)
         {
-            var result = await _context.Set<T>().FirstOrDefaultAsync(n => n.Id == id);
-            return result;
-        }
+            EntityEntry entityEntry =  _context.Entry<T>(entity);
+            entityEntry.State = EntityState.Modified;
 
-        public Task<T> UpdateAsync(int id, T entity)
-        {
-            throw new NotImplementedException();
+            await _context.SaveChangesAsync();
         }
     }
 }
