@@ -113,6 +113,7 @@ namespace eTickets.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Edit(int id, NewMovieVM movie)
         {
             if (id != movie.Id) return View("NotFound");
@@ -131,5 +132,27 @@ namespace eTickets.Controllers
             await _service.UpdateMovieAsync(movie);
             return RedirectToAction(nameof(Index));
         }
+        [AllowAnonymous]
+        // GET: Movies/BuyTicket
+        public IActionResult BuyTicket()
+        {
+            return View("BuyTicket"); // Return the BuyTicket.cshtml view
+        }
+
+        public IActionResult Buy()
+        {
+            // Perform any necessary logic for buying the ticket
+            // Generate the ticket number and other required data
+
+            // Example: Generate a random ticket number
+            var ticketNumber = new Random().Next(1000, 9999);
+
+            var message = $"Congrats, your ticket number  is {ticketNumber}. You only need the ticket number to enter the cinema. Have fun!!";
+
+            ViewBag.Message = message;
+
+            return View("BuyConfirmation");
+        }
+
     }
 }

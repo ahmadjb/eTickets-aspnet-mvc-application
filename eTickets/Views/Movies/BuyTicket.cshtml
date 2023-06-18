@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Buy Ticket";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">@ViewData["Title"]</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <label for="cardNumber">Card Number</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" id="cardNumber" name="CardNumber">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="bi bi-credit-card"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="expirationDate">Expiration Date</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="expirationDate" name="ExpirationDate">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-calendar-date"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="cvv">CVV</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm" id="cvv" name="CVV">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" formaction="@Url.Action("Buy", "Movies")">Buy</button>
+
+        }
+    </div>
+</div>
