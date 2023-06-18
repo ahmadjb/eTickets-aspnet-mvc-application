@@ -1,4 +1,5 @@
 ﻿using eTickets.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,10 +8,19 @@ using System.Threading.Tasks;
 
 namespace eTickets.Data
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+        }
+
+        public AppDbContext(DbSet<Actor> actors, DbSet<Movie> movies, DbSet<Actor_Movie> actors_Movies, DbSet<Cinema> cinemas, DbSet<Producer> producers)
+        {
+            Actors = actors;
+            Movies = movies;
+            Actors_Movies = actors_Movies;
+            Cinemas = cinemas;
+            Producers = producers;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
