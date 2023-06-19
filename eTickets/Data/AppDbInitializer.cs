@@ -21,6 +21,7 @@ namespace eTickets.Data
 
                 context.Database.EnsureCreated();
 
+                
                 //Cinema
                 if (!context.Cinemas.Any())
                 {
@@ -137,6 +138,7 @@ namespace eTickets.Data
                     });
                     context.SaveChanges();
                 }
+
                 //Movies
                 if (!context.Movies.Any())
                 {
@@ -213,7 +215,10 @@ namespace eTickets.Data
                             CinemaId = 1,
                             ProducerId = 5,
                             MovieCategory = MovieCategory.Drama
-                        }
+                        },
+                       
+
+
                     });
                     context.SaveChanges();
                 }

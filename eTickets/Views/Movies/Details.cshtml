@@ -4,41 +4,153 @@
     ViewData["Title"] = "Movie details";
 }
 
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        margin-bottom: 20px;
+        border: none;
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+    .card-img-top {
+        height: auto;
+        max-width: 100%;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+        color: #333;
+        border: none;
+    }
+
+    .card-text {
+        margin-bottom: 10px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .badge {
+        font-size: 14px;
+        font-weight: bold;
+        padding: 6px 10px;
+        border-radius: 15px;
+        text-transform: uppercase;
+        margin-right: 5px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            color: #fff;
+            border-color: #218838;
+        }
+
+    .actor-image-container {
+        position: relative;
+    }
+
+    .actor-image {
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        transition: transform 0.3s;
+        border: none;
+    }
+
+        .actor-image:hover {
+            transform: scale(1.1);
+        }
+
+    .actor-name {
+        font-size: 16px;
+        margin-top: 10px;
+        text-align: center;
+        color: #333;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-8 offset-2">
         <div class="card mb-12">
             <div class="row g-0">
                 <div class="col-md-12">
-                    <div class="card-header text-white bg-info">
-                        <p class="card-text">
-                            <h5 class="card-title">
-                                @Model.Name
-                            </h5>
-                        </p>
+                    <div class="card-header bg-light">
+                        <h5 class="card-title text-dark">
+                            @Model.Name
+                        </h5>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <img src="@Model.ImageURL" width="100%" alt="@Model.Name">
+                    <img src="@Model.ImageURL" class="card-img-top" alt="@Model.Name">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <p class="card-text">@Model.Description</p>
                         <p class="card-text">
                             <b>Cinema: </b>
-                            <a asp-controller="Cinemas" asp-action="Details" asp-route-id="@Model.CinemaId">
+                            <a asp-controller="Cinemas" asp-action="Details" asp-route-id="@Model.CinemaId" class="text-dark">
                                 @Model.Cinema.Name
                             </a>
                         </p>
                         <p class="card-text">
                             <b>Producer: </b>
-                            <a asp-controller="Producers" asp-action="Details" asp-route-id="@Model.ProducerId">
+                            <a asp-controller="Producers" asp-action="Details" asp-route-id="@Model.ProducerId" class="text-dark">
                                 @Model.Producer.FullName
                             </a>
                         </p>
                         <p class="card-text"><b>Category: </b>@Model.MovieCategory</p>
                         <p class="card-text"><b>Start Date: </b>@Model.StartDate.ToString("dd MMM yy")</p>
                         <p class="card-text"><b>End Date: </b>@Model.EndDate.ToString("dd MMM yy")</p>
-                        <p class="card-text ">
+                        <p class="card-text">
                             <b>Status: </b>
                             @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate)
                             {
@@ -60,9 +172,12 @@
                                 @foreach (var actor in Model.Actors_Movies)
                                 {
                                     <div class="column text-center">
-                                        <img class="border-info rounded-circle" src="@actor.Actor.ProfilePictureURL" style="max-width: 150px" />
-                                        <br />
-                                        <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">@actor.Actor.FullName</a>
+                                        <div class="actor-image-container">
+                                            <a asp-controller="Actors" asp-action="Details" asp-route-id="@actor.ActorId">
+                                                <img class="border-info actor-image" src="@actor.Actor.ProfilePictureURL" />
+                                            </a>
+                                        </div>
+                                        <p class="actor-name">@actor.Actor.FullName</p>
                                     </div>
                                 }
                             </div>
@@ -71,18 +186,12 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="card-footer">
-                        <p class="card-text">
-                            <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@Model.Id">
-                                <i class="bi bi-eye-fill"></i> Show Details
-                            </a>
-                            <a class="btn btn-success text-white" asp-action="BuyTicket" asp-route-id="@Model.Id">
-                                Buy Ticket - @Model.Price.ToString("c")
-                            </a>
-                        </p>
+                    <div class="card-footer text-center">
+                        <a class="btn btn-success text-white" asp-action="BuyTicket" asp-route-id="@Model.Id">
+                            Buy Ticket - @Model.Price.ToString("c")
+                        </a>
                     </div>
                 </div>
-            
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 namespace eTickets.Migrations
 {
-    public partial class first : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

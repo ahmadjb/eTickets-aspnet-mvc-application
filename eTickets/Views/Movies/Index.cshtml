@@ -4,72 +4,180 @@
     ViewData["Title"] = "List of Movies";
 }
 
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        margin-bottom: 20px;
+    }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+    .card-img-top {
+        height: auto;
+        max-width: 100%;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .card-text {
+        margin-bottom: 10px;
+    }
+
+    .badge {
+        font-size: 14px;
+        font-weight: bold;
+        padding: 6px 10px;
+        border-radius: 15px;
+        text-transform: uppercase;
+        margin-right: 5px;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .badge-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-outline-primary {
+        border-color: #007bff;
+        color: #007bff;
+        padding: 5px 10px;
+        font-weight: bold;
+        font-size: 14px;
+        width: auto;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+        border-color: #28a745;
+        padding: 5px 10px;
+        font-weight: bold;
+        font-size: 14px;
+        width: auto;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            color: #fff;
+            border-color: #218838;
+        }
+
+    .edit-button {
+        display: inline-block;
+        background-color: #6c757d;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        width: auto;
+    }
+
+        .edit-button:hover {
+            background-color: #495057;
+        }
+
+    .show-details-button {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        width: auto;
+    }
+
+        .show-details-button:hover {
+            background-color: #0056b3;
+        }
+
+    .card-footer .btn,
+    .card-footer .edit-button,
+    .card-footer .show-details-button {
+        width: auto;
+    }
+</style>
+
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-md-4 col-xs-6 border-primary mb-3">
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                    <div class="col-md-12">
-                        <div class="card-header text-white bg-info">
-                            <p class="card-text">
-                                <h5 class="card-title">
-                                    @item.Name
-                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {
-                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
-                                    }
-                                </h5>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <img src="@item.ImageURL" width="100%" alt="@item.Name">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <p class="card-text">@item.Description</p>
-                            <p class="card-text"><b>Cinema: </b>@item.Cinema.Name</p>
-                            <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
-                            <p class="card-text"><b>Start Date: </b>@item.StartDate.ToString("dd MMM yy")</p>
-                            <p class="card-text"><b>End Date: </b>@item.EndDate.ToString("dd MMM yy")</p>
-                            <p class="card-text ">
-                                <b>Status: </b>
-                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
-                                {
-                                    <span class="badge bg-success text-white">AVAILABLE</span>
-                                }
-                                else if (DateTime.Now > item.EndDate)
-                                {
-                                    <span class="badge bg-danger text-white">EXPIRED</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-primary text-white">UPCOMING</span>
-                                }
-                            </p>
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card-footer">
-                            <p class="card-text">
-                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
-                                    <i class="bi bi-eye-fill"></i> Show Details
-                                </a>
-                                <a class="btn btn-success text-white" asp-action="BuyTicket" asp-route-id="@item.Id">
-                                    Buy Ticket -@item.Price.ToString("c")
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-
-                
+        <div class="col-md-4 col-xs-6 mb-3">
+            <div class="card">
+                <img src="@item.ImageURL" class="card-img-top" alt="@item.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><b>Cinema:</b> @item.Cinema.Name</p>
+                    <p class="card-text"><b>Category:</b> @item.MovieCategory</p>
+                    <p class="card-text"><b>Start Date:</b> @item.StartDate.ToString("dd MMM yy")</p>
+                    <p class="card-text"><b>End Date:</b> @item.EndDate.ToString("dd MMM yy")</p>
+                    <p class="card-text">
+                        <b>Status:</b>
+                        @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
+                        {
+                            <span class="badge badge-success">AVAILABLE</span>
+                        }
+                        else if (DateTime.Now > item.EndDate)
+                        {
+                            <span class="badge badge-danger">EXPIRED</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-primary">UPCOMING</span>
+                        }
+                    </p>
+                </div>
+                <div class="card-footer text-center">
+                    <a class="btn btn-outline-primary show-details-button" asp-action="Details" asp-route-id="@item.Id">
+                        <i class="bi bi-eye-fill"></i> Show Details
+                    </a>
+                    <a class="btn btn-success text-white" asp-action="BuyTicket" asp-route-id="@item.Id">
+                        Buy Ticket - @item.Price.ToString("c")
+                    </a>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a class="edit-button text-white" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                    }
                 </div>
             </div>
         </div>
     }
 </div>
 
-@await Html.PartialAsync("_CreateItem", "Movies") 
+@await Html.PartialAsync("_CreateItem", "Movies")
