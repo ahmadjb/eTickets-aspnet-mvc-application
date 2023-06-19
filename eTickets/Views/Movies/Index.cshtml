@@ -18,7 +18,7 @@
         }
 
     .card-img-top {
-        height: auto;
+        max-height:77vh ;
         max-width: 100%;
         object-fit: cover;
         border-top-left-radius: 10px;
@@ -93,43 +93,83 @@
             border-color: #218838;
         }
 
-    .edit-button {
+    .edit-button, .show-details-button, .buy-ticket-button {
         display: inline-block;
-        background-color: #6c757d;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 14px;
-        width: auto;
+        width: 200px;
+        font-size: 16px;
+        font-weight: 300; /* Use a thinner font weight */
+        font-family: "Helvetica Neue", Arial, sans-serif; /* Use an elegant font */
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+        margin: 20px;
+        height: 55px;
+        text-align: center;
+        line-height: 55px; /* Adjust line height to center the text vertically */
+        border: none;
+        background-size: 300% 100%;
+        border-radius: 50px;
+        transition: background 0.4s ease-in-out 0s;
+    }
+
+    .edit-button {
+        background-image: linear-gradient(to right, rgb(98, 83, 225), rgb(133, 45, 145), rgb(163, 161, 255), rgb(242, 70, 69));
+        box-shadow: rgba(126, 52, 161, 0.75) 0px 4px 15px 0px;
     }
 
         .edit-button:hover {
-            background-color: #495057;
+            background-position: 100% 0px;
+            transition: background 0.4s ease-in-out 0s;
+        }
+
+        .edit-button:focus {
+            outline: none;
+        }
+
+        .edit-button:active {
+            box-shadow: rgba(126, 52, 161, 0.75) 0px 4px 5px 0px;
+            transition: all 0.1s ease-in-out 0s;
+            transform: translateY(2px);
         }
 
     .show-details-button {
-        display: inline-block;
-        background-color: #007bff;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        font-size: 14px;
-        width: auto;
+        background-image: linear-gradient(to right, rgb(255, 136, 0), rgb(255, 205, 86), rgb(255, 230, 159), rgb(255, 249, 196));
+        box-shadow: rgba(255, 170, 0, 0.75) 0px 4px 15px 0px;
     }
 
         .show-details-button:hover {
-            background-color: #0056b3;
+            background-position: 100% 0px;
+            transition: background 0.4s ease-in-out 0s;
         }
 
-    .card-footer .btn,
-    .card-footer .edit-button,
-    .card-footer .show-details-button {
-        width: auto;
+        .show-details-button:focus {
+            outline: none;
+        }
+
+        .show-details-button:active {
+            box-shadow: rgba(255, 170, 0, 0.75) 0px 4px 5px 0px;
+            transition: all 0.1s ease-in-out 0s;
+            transform: translateY(2px);
+        }
+
+    .buy-ticket-button {
+        background-image: linear-gradient(to right, rgb(0, 123, 255), rgb(23, 162, 184), rgb(23, 162, 184), rgb(0, 123, 255));
+        box-shadow: rgba(23, 162, 184, 0.75) 0px 4px 15px 0px;
     }
+
+        .buy-ticket-button:hover {
+            background-position: 100% 0px;
+            transition: background 0.4s ease-in-out 0s;
+        }
+
+        .buy-ticket-button:focus {
+            outline: none;
+        }
+
+        .buy-ticket-button:active {
+            box-shadow: rgba(23, 162, 184, 0.75) 0px 4px 5px 0px;
+            transition: all 0.1s ease-in-out 0s;
+            transform: translateY(2px);
+        }
 </style>
 
 <div class="row">
@@ -162,10 +202,10 @@
                     </p>
                 </div>
                 <div class="card-footer text-center">
-                    <a class="btn btn-outline-primary show-details-button" asp-action="Details" asp-route-id="@item.Id">
+                    <a class="show-details-button" asp-action="Details" asp-route-id="@item.Id">
                         <i class="bi bi-eye-fill"></i> Show Details
                     </a>
-                    <a class="btn btn-success text-white" asp-action="BuyTicket" asp-route-id="@item.Id">
+                    <a class="buy-ticket-button text-white" asp-action="BuyTicket" asp-route-id="@item.Id">
                         Buy Ticket - @item.Price.ToString("c")
                     </a>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
